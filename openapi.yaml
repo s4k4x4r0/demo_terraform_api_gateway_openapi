@@ -1,13 +1,16 @@
-openapi: 3.0.1
+openapi: 3.0.3
 info:
-  title: Sample API
+  title: Demo - Terraform x API Gateway x OpenAPI
   version: 1.0.0
+servers:
+  - url: https://yim00xf1kc.execute-api.ap-northeast-1.amazonaws.com/latest/
 paths:
   /hello:
     get:
-      summary: "Hello endpoint"
+      operationId: hello
+      summary: Hello endpoint
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -16,8 +19,98 @@ paths:
                 properties:
                   message:
                     type: string
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
       x-amazon-apigateway-integration:
-        uri: "${lambda_invoke_arn}"
+        uri: ${lambda_hello_invoke_arn}
         httpMethod: POST
         type: aws_proxy
-        payloadFormatVersion: 2.0 
+        payloadFormatVersion: 2
+    options:
+      operationId: helloOptions
+      responses:
+        "200":
+          description: OK
+          headers:
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: "never"
+        type: mock
+  /uppercase:
+    post:
+      operationId: uppercase
+      summary: Convert text to uppercase
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+      x-amazon-apigateway-integration:
+        uri: ${lambda_uppercase_invoke_arn}
+        httpMethod: POST
+        type: aws_proxy
+        payloadFormatVersion: 2
+    options:
+      operationId: uppercaseOptions
+      responses:
+        "200":
+          description: OK
+          headers:
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: "never"
+        type: mock

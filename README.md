@@ -17,7 +17,6 @@ FIXME: 概要を後で書く
    ```sh
    cd lambda
    zip hello.zip index.js
-   mv hello.zip ..
    cd ..
    ```
 
