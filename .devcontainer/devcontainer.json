@@ -1,0 +1,26 @@
+{
+  "name": "Terraform + OpenAPI + API Gateway Demo",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/terraform:1": {},
+    "ghcr.io/devcontainers/features/aws-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "hashicorp.terraform",
+        "ms-azuretools.vscode-docker",
+        "42crunch.vscode-openapi"
+      ],
+      "settings": {
+        "editor.formatOnSave": true
+      }
+    }
+  },
+  "postCreateCommand": {
+    "envrc": "echo 'source ${containerWorkspaceFolder}/.envrc' >> ~/.bashrc"
+  }
+}

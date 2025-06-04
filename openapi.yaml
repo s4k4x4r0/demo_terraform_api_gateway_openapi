@@ -1,0 +1,23 @@
+openapi: 3.0.1
+info:
+  title: Sample API
+  version: 1.0.0
+paths:
+  /hello:
+    get:
+      summary: "Hello endpoint"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+      x-amazon-apigateway-integration:
+        uri: "${lambda_invoke_arn}"
+        httpMethod: POST
+        type: aws_proxy
+        payloadFormatVersion: 2.0 

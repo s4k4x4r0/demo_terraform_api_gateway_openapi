@@ -1,0 +1,28 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+.terraform.lock.hcl
+
+# VSCode
+.vscode/
+
+# Docker
+**/Dockerfile*
+**/docker-compose*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# その他
+*.log
+.env 
+.envrc
