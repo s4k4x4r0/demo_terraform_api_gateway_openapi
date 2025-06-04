@@ -9,14 +9,6 @@ override.tf.json
 *_override.tf
 *_override.tf.json
 .terraformrc
-.terraform.lock.hcl
-
-# VSCode
-.vscode/
-
-# Docker
-**/Dockerfile*
-**/docker-compose*
 
 # OS
 .DS_Store
