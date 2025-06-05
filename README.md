@@ -11,6 +11,13 @@ Cognito User Pool を認証に使用する。
 - Terraform
 - DevContainer (VSCode)
 
+## AWSの認証情報の設定
+
+`.envrc` に AWS の認証情報を設定する。
+`.envrc.example`を参考にすること。
+
+設定後にシェルを再起動する必要がある。
+
 ## デモ手順
 
 1. Lambda ディレクトリで zip を作成
