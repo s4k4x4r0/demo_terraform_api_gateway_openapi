@@ -79,6 +79,7 @@ data "template_file" "openapi" {
   vars = {
     lambda_hello_invoke_arn     = aws_lambda_function.hello.invoke_arn
     lambda_uppercase_invoke_arn = aws_lambda_function.uppercase.invoke_arn
+    cognito_user_pool_arn       = aws_cognito_user_pool.main.arn
   }
 }
 
@@ -113,4 +114,19 @@ resource "aws_lambda_permission" "apigw_uppercase" {
   function_name = aws_lambda_function.uppercase.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
+}
+
+resource "aws_cognito_user_pool" "main" {
+  name = local.project_prefix
+}
+
+resource "aws_cognito_user_pool_client" "main" {
+  name         = local.project_prefix
+  user_pool_id = aws_cognito_user_pool.main.id
+
+  # ALLOW_USER_PASSWORD_AUTHよりも、よりセキュアな認証フローを使用した方が良い
+  explicit_auth_flows = [
+    "ALLOW_USER_PASSWORD_AUTH",
+    "ALLOW_REFRESH_TOKEN_AUTH"
+  ]
 }

@@ -4,11 +4,24 @@ info:
   version: 1.0.0
 servers:
   - url: https://example.com/
+components:
+  securitySchemes:
+    CognitoAuthorizer:
+      type: apiKey
+      name: Authorization
+      in: header
+      x-amazon-apigateway-authtype: cognito_user_pools
+      x-amazon-apigateway-authorizer:
+        type: cognito_user_pools
+        providerARNs:
+          - ${cognito_user_pool_arn}
 paths:
   /hello:
     get:
       operationId: hello
       summary: Hello endpoint
+      security:
+        - CognitoAuthorizer: []
       responses:
         "200":
           description: OK
@@ -59,6 +72,8 @@ paths:
     post:
       operationId: uppercase
       summary: Convert text to uppercase
+      security:
+        - CognitoAuthorizer: []
       requestBody:
         required: true
         content:
